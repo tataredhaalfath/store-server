@@ -6,4 +6,3 @@ const { index } = require("./controller");
 router.get("/", index);
 
 module.exports = router;
- 
