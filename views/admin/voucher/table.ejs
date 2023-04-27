@@ -1,0 +1,81 @@
+<table id="example2" class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Nama Game</th>
+      <th>Kategori</th>
+      <th>Nominal</th>
+      <th>Gambar</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% voucher.forEach((data, key) => { %>
+    <tr>
+      <td><%= key + 1%></td>
+      <td><%= data.name %></td>
+      <td><%= data.category.name %></td>
+      <td>
+        <% data.nominals.forEach(nominal=> { %>
+        <span class="badge badge-warning">
+          <%= nominal.coinName %> - <%= nominal.coinQuantity %>
+        </span>
+        <% }) %>
+      </td>
+      <td>
+        <img
+          src="/upload/<%= data.thumbnail%>"
+          alt=""
+          width="30%"
+          height="30%"
+        />
+      </td>
+      <td>
+        <% if(data.status== "Y") {%>
+        <span class="badge badge-success"> Aktif </span>
+        <% } else { %>
+        <span class="badge badge-danger"> Tidak Aktif </span>
+        <% } %>
+      </td>
+      <td>
+        <form
+          action="/voucher/status?_method=PUT"
+          method="POST"
+          class="form d-inline-block mb-2"
+        >
+          <input type="hidden" name="id" value="<%= data._id%>" />
+          <button class="btn btn-sm 
+            <% if(data.status== "Y") {%> btn-warning <% } else { %> btn-success <% } %>
+          ">
+            <i class="fas <% if(data.status== "Y") {%> fa-lock <% } else { %> fa-check <% } %>"></i>
+            <% if(data.status== "Y") {%> Matikan <% } else { %>Aktifkan <% } %>
+          </button>
+        </form>
+
+        <form
+          action="/voucher/edit"
+          method="POST"
+          class="form d-inline-block mb-2"
+        >
+          <input type="hidden" name="id" value="<%= data._id%>" />
+          <button class="btn btn-sm btn-info text-white">
+            <i class="fas fa-pencil-alt"></i> Ubah
+          </button>
+        </form>
+
+        <form
+          action="/voucher/delete?_method=DELETE"
+          method="POST"
+          class="form d-inline-block mb-2"
+        >
+          <input type="hidden" name="id" value="<%= data._id%>" />
+          <button class="btn btn-sm btn-danger">
+            <i class="fas fa-trash"></i> Hapus
+          </button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
