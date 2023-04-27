@@ -8,8 +8,9 @@ const session = require("express-session");
 const flash = require("connect-flash");
 
 // router
-const categoryRouter = require("./app/category/router");
 const dashboardRouter = require("./app/dashboard/router");
+const categoryRouter = require("./app/category/router");
+const nominalRouter = require("./app/nominal/router");
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use(
 // routing
 app.use("/", dashboardRouter);
 app.use("/category", categoryRouter);
+app.use("/nominal", nominalRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
