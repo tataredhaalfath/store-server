@@ -1,4 +1,5 @@
 const Player = require("./model");
+const Voucher = require("../voucher/model");
 
 module.exports = {
   index: async (req, res) => {
@@ -39,6 +40,47 @@ module.exports = {
       req.flash("alertMessage", `${err.message}`);
       req.flash("alertStatus", "danger");
       res.redirect("/player");
+    }
+  },
+
+  landingPage: async (req, res) => {
+    try {
+      const voucher = await Voucher.find()
+        .select("_id name status category thumbnail")
+        .populate("category");
+      res.status(200).json({
+        data: voucher,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: err.message || "Terjadi kesalahan pada server",
+      });
+    }
+  },
+
+  detailPage: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const voucher = await Voucher.findOne({ _id: id })
+        .populate("category")
+        .populate("nominals")
+        .populate("user", "_id name phoneNumber");
+
+      if (!voucher) {
+        return res.status(404).json({
+          message: "Voucher game tidak ditemukan!",
+        });
+      }
+
+      res.status(200).json({
+        data: voucher,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: err.message || "Terjadi kesalahan pada server",
+      });
     }
   },
 };

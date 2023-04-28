@@ -22,4 +22,8 @@ router.use("/payment", isLoginAdmin, paymentRouter);
 router.use("/transaction", isLoginAdmin, transactionRouter);
 router.use("/player", isLoginAdmin, playerRouter);
 
+// api
+const url = "/api/v1";
+router.use(`${url}/player`, playerRouter);
+
 module.exports = router;
