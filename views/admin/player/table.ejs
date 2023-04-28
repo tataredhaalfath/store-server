@@ -1,0 +1,48 @@
+<table id="example2" class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Nama</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Nomor Telpon</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% players.forEach((data, key) => { %>
+    <tr>
+      <td><%= key + 1%></td>
+      <td><%= data.name%></td>
+      <td><%= data.username %></td>
+      <td><%= data.email %></td>
+      <td><%= data.phoneNumber %></td>
+
+      <td>
+        <% if(data.status == "Y") {%>
+        <span class="badge badge-success"> Aktif </span>
+        <% } else { %>
+        <span class="badge badge-danger"> Tidak Aktif</span>
+        <% } %>
+      </td>
+
+      <td>
+        <form
+          action="/player/status?_method=PUT"
+          method="POST"
+          class="form d-inline-block mb-2"
+        >
+          <input type="hidden" name="id" value="<%= data._id%>" />
+          <button class="btn btn-sm 
+            <% if(data.status== "Y") {%> btn-warning <% } else { %> btn-success <% } %>
+          ">
+          <i class="fas <% if(data.status== "Y") {%> fa-lock <% } else { %> fa-check <% } %>"></i>
+          <% if(data.status== "Y") {%> Matikan <% } else { %>Aktifkan <% } %>
+        </button>
+      </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>

@@ -17,11 +17,13 @@ let userSchama = mongoose.Schema(
     role: {
       type: String,
       enum: ["admin", "user"],
-      default: "user",
+      default: "admin",
     },
     phoneNumber: {
       type: String,
       require: [true, "Nomor telpon harus diisi"],
+      minlength: [9, "Panjang nomor telpon harus antara 9 - 13 karakter"],
+      maxlength: [13, "Panjang nomor telpon harus antara 9 - 13 karakter"],
     },
     status: {
       type: String,

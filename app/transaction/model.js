@@ -45,23 +45,23 @@ let transactionSchema = mongoose.Schema(
     },
     name: {
       type: String,
-      require:[true, "Nama harus diisi"],
-      maxlength: [225, "Panjang nama harus antara 3 - 225 karakter"],
+      require: [true, "Nama harus diisi"],
       minlength: [3, "Panjang nama harus antara 3 - 225 karakter"],
+      maxlength: [225, "Panjang nama harus antara 3 - 225 karakter"],
     },
     accountUser: {
       type: String,
-      require:[true, "Nama akun harus diisi"],
-      maxlength: [225, "Panjang nama harus antara 3 - 225 karakter"],
+      require: [true, "Nama akun harus diisi"],
       minlength: [3, "Panjang nama harus antara 3 - 225 karakter"],
+      maxlength: [225, "Panjang nama harus antara 3 - 225 karakter"],
     },
     tax: {
       type: Number,
-      default: 0
+      default: 0,
     },
     value: {
       type: Number,
-      default:0
+      default: 0,
     },
     status: {
       type: String,
@@ -70,7 +70,7 @@ let transactionSchema = mongoose.Schema(
     },
     player: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Player"
+      ref: "Player",
     },
     historyUser: {
       name: {
@@ -79,18 +79,18 @@ let transactionSchema = mongoose.Schema(
       },
       phoneNumber: {
         type: String,
-        require:[true, "Nama akun harus diisi"],
-        maxlength: [13, "Panjang nomor telpon harus antara 9 - 13 karakter"],
+        require: [true, "Nama akun harus diisi"],
         minlength: [9, "Panjang nomor telpon harus antara 9 - 13 karakter"],
-      }
+        maxlength: [13, "Panjang nomor telpon harus antara 9 - 13 karakter"],
+      },
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category"
+      ref: "Category",
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      ref: "User",
     },
   },
   { timestamps: true }

@@ -10,6 +10,7 @@ const voucherRouter = require("../app/voucher/router");
 const bankRouter = require("../app/bank/router");
 const paymentRouter = require("../app/payment/router");
 const transactionRouter = require("../app/transaction/router");
+const playerRouter = require("../app/player/router");
 
 router.use("/", userRouter);
 router.use("/dashboard", isLoginAdmin, dashboardRouter);
@@ -18,6 +19,7 @@ router.use("/nominal", isLoginAdmin, nominalRouter);
 router.use("/voucher", isLoginAdmin, voucherRouter);
 router.use("/bank", isLoginAdmin, bankRouter);
 router.use("/payment", isLoginAdmin, paymentRouter);
-router.use("/transaction",isLoginAdmin, transactionRouter);
+router.use("/transaction", isLoginAdmin, transactionRouter);
+router.use("/player", isLoginAdmin, playerRouter);
 
 module.exports = router;
