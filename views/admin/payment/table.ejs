@@ -1,0 +1,44 @@
+<table id="example2" class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Type Pembayaran</th>
+      <th>Bank</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% payment.forEach((data, key) => { %>
+    <tr>
+      <td><%= key + 1%></td>
+      <td><%= data.type %></td>
+      <td>
+        <% data.banks.forEach(bank=> { %>
+        <span class="badge badge-warning">
+          <%= bank.bankName %> - <%= bank.noRekening %>
+        </span>
+        <% }) %>
+      </td>
+      <td>
+        <form action="/payment/edit" method="POST" class="form d-inline">
+          <input type="hidden" name="id" value="<%= data._id%>" />
+          <button class="btn btn-sm btn-warning">
+            <i class="fas fa-pencil-alt"></i> Ubah
+          </button>
+        </form>
+
+        <form
+          action="/payment/delete?_method=DELETE"
+          method="POST"
+          class="form d-inline"
+        >
+          <input type="hidden" name="id" value="<%= data._id%>" />
+          <button class="btn btn-sm btn-danger">
+            <i class="fas fa-trash"></i> Hapus
+          </button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
