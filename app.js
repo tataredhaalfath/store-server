@@ -8,12 +8,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 
 // router
-const dashboardRouter = require("./app/dashboard/router");
-const categoryRouter = require("./app/category/router");
-const nominalRouter = require("./app/nominal/router");
-const voucherRouter = require("./app/voucher/router");
-const bankRouter = require("./app/bank/router");
-const paymentRouter = require("./app/payment/router");
+const router = require("./routes");
 
 const app = express();
 
@@ -42,12 +37,8 @@ app.use(
 );
 
 // routing
-app.use("/", dashboardRouter);
-app.use("/category", categoryRouter);
-app.use("/nominal", nominalRouter);
-app.use("/voucher", voucherRouter);
-app.use("/bank", bankRouter);
-app.use("/payment", paymentRouter);
+app.use(router);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
