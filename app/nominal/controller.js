@@ -1,20 +1,36 @@
 const Nominal = require("./model");
+const { fnumber } = require("../../libs/currency");
 
 module.exports = {
   index: async (req, res) => {
-    const alertMessage = req.flash("alertMessage");
-    const alertStatus = req.flash("alertStatus");
-
-    const alert = { message: alertMessage, status: alertStatus };
-    const nominal = await Nominal.find();
-
     try {
-      res.render("admin/nominal/view_nominal", {
-        nominal,
-        alert,
-        name: req.session.user.name,
-        title: "Halaman Nominal",
-      });
+      const alertMessage = req.flash("alertMessage");
+      const alertStatus = req.flash("alertStatus");
+
+      const alert = { message: alertMessage, status: alertStatus };
+      Nominal.find()
+        .then((response) => {
+          response = JSON.parse(JSON.stringify(response));
+          const nominal = response.map((data) => {
+            data.price = fnumber(parseInt(data.price));
+            return {
+              ...data,
+            };
+          });
+
+          res.render("admin/nominal/view_nominal", {
+            nominal,
+            alert,
+            name: req.session.user.name,
+            title: "Halaman Nominal",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          req.flash("alertMessage", `${err.message}`);
+          req.flash("alertStatus", "danger");
+          res.redirect("/nominal");
+        });
     } catch (err) {
       console.log(err);
       req.flash("alertMessage", `${err.message}`);
