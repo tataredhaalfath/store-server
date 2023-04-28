@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+
 let playerSchema = mongoose.Schema(
   {
     email: {
@@ -14,7 +16,6 @@ let playerSchema = mongoose.Schema(
     },
     username: {
       type: String,
-      require: [true, "Username harus diisi"],
       minlength: [3, "Panjang username harus antara 3 - 225 karakter"],
       maxlength: [225, "Panjang username harus antara 3 - 225 karakter"],
     },
@@ -37,7 +38,7 @@ let playerSchema = mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      require: [true, "Nomor telpon harus diisi"],
+      // require: [true, "Nomor telpon harus diisi"],
       minlength: [9, "Panjang nomor telpon harus antara 9 - 13 karakter"],
       maxlength: [13, "Panjang nomor telpon harus antara 9 - 13 karakter"],
     },
@@ -53,5 +54,50 @@ let playerSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+playerSchema.path("email").validate(
+  async function (value) {
+    try {
+      const count = await this.model("Player").countDocuments({ email: value });
+      return !count;
+    } catch (err) {
+      throw err;
+    }
+  },
+  (attr) => `${attr.value} sudah terdaftar`
+);
+
+playerSchema.path("username").validate(
+  async function (value) {
+    try {
+      const count = await this.model("Player").countDocuments({
+        username: value,
+      });
+      return !count;
+    } catch (err) {
+      throw err;
+    }
+  },
+  (attr) => `${attr.value} sudah terdaftar`
+);
+
+playerSchema.path("phoneNumber").validate(
+  async function (value) {
+    try {
+      const count = await this.model("Player").countDocuments({
+        phoneNumber: value,
+      });
+      return !count;
+    } catch (err) {
+      throw err;
+    }
+  },
+  (attr) => `${attr.value} sudah terdaftar`
+);
+
+playerSchema.pre("save", function (next) {
+  this.password = bcrypt.hashSync(this.password, 10);
+  next();
+});
 
 module.exports = mongoose.model("Player", playerSchema);
