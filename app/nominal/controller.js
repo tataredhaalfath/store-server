@@ -9,7 +9,12 @@ module.exports = {
     const nominal = await Nominal.find();
 
     try {
-      res.render("admin/nominal/view_nominal", { nominal, alert });
+      res.render("admin/nominal/view_nominal", {
+        nominal,
+        alert,
+        name: req.session.user.name,
+        title: "Halaman Nominal",
+      });
     } catch (err) {
       console.log(err);
       req.flash("alertMessage", `${err.message}`);
@@ -20,7 +25,10 @@ module.exports = {
 
   viewCreate: async (req, res) => {
     try {
-      res.render("admin/nominal/create");
+      res.render("admin/nominal/create", {
+        name: req.session.user.name,
+        title: "Halaman Tambah Nominal",
+      });
     } catch (err) {
       console.log(err);
       req.flash("alertMessage", `${err.message}`);
@@ -51,7 +59,11 @@ module.exports = {
     try {
       const { id } = req.body;
       const nominal = await Nominal.findOne({ _id: id });
-      res.render("admin/nominal/edit", { nominal });
+      res.render("admin/nominal/edit", {
+        nominal,
+        name: req.session.user.name,
+        title: "Halaman Ubah Nominal",
+      });
     } catch (err) {
       console.log(err);
       req.flash("alertMessage", `${err.message}`);

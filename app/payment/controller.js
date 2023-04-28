@@ -10,7 +10,12 @@ module.exports = {
     const payment = await Payment.find().populate("banks");
 
     try {
-      res.render("admin/payment/view_payment", { payment, alert });
+      res.render("admin/payment/view_payment", {
+        payment,
+        alert,
+        name: req.session.user.name,
+        title: "Halaman Metode Pembayaran",
+      });
     } catch (err) {
       console.log(err);
       req.flash("alertMessage", `${err.message}`);
@@ -22,7 +27,11 @@ module.exports = {
   viewCreate: async (req, res) => {
     try {
       const banks = await Bank.find();
-      res.render("admin/payment/create", { banks });
+      res.render("admin/payment/create", {
+        banks,
+        name: req.session.user.name,
+        title: "Halaman Tambah Metode Pembayaran",
+      });
     } catch (err) {
       console.log(err);
       req.flash("alertMessage", `${err.message}`);
@@ -54,7 +63,12 @@ module.exports = {
       const { id } = req.body;
       const payment = await Payment.findOne({ _id: id }).populate("banks");
       const banks = await Bank.find();
-      res.render("admin/payment/edit", { payment, banks });
+      res.render("admin/payment/edit", {
+        payment,
+        banks,
+        name: req.session.user.name,
+        title: "Halaman Ubah Metode Pembayaran",
+      });
     } catch (err) {
       console.log(err);
       req.flash("alertMessage", `${err.message}`);
