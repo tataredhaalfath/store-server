@@ -7,6 +7,7 @@ const {
   detailPage,
   category,
   checkout,
+  history,
 } = require("./controller");
 const { isLoginPlayer } = require("../middleware/auth");
 
@@ -18,5 +19,5 @@ router.get("/voucher", landingPage);
 router.post("/detail", detailPage);
 router.get("/category", category);
 router.post("/checkout", isLoginPlayer, checkout);
-
+router.get("/history", isLoginPlayer, history);
 module.exports = router;

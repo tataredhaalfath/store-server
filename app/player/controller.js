@@ -176,4 +176,45 @@ module.exports = {
       });
     }
   },
+
+  history: async (req, res) => {
+    try {
+      const { status = "" } = req.query;
+      let criteria = {};
+
+      if (status.length) {
+        criteria = {
+          ...criteria,
+          status: { $regex: `${status}`, $options: "i" },
+        };
+      }
+
+      if (req.player._id) {
+        criteria = {
+          ...criteria,
+          player: req.player._id,
+        };
+      }
+
+      const history = await Transaction.find(criteria);
+      const amount = await Transaction.aggregate([
+        { $match: criteria },
+        {
+          $group: {
+            _id: null,
+            value: { $sum: "$value" },
+          },
+        },
+      ]);
+      res.status(200).json({
+        data: history,
+        amount: amount.length ? amount[0].value : 0,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: err.message || "Terjadi kesalahan pada server",
+      });
+    }
+  },
 };
