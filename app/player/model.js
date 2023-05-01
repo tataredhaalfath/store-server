@@ -18,6 +18,7 @@ let playerSchema = mongoose.Schema(
       type: String,
       minlength: [3, "Panjang username harus antara 3 - 225 karakter"],
       maxlength: [225, "Panjang username harus antara 3 - 225 karakter"],
+      unique: [true, "Username sudah terdaftar"],
     },
     password: {
       type: String,
@@ -38,9 +39,9 @@ let playerSchema = mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      // require: [true, "Nomor telpon harus diisi"],
       minlength: [9, "Panjang nomor telpon harus antara 9 - 13 karakter"],
       maxlength: [13, "Panjang nomor telpon harus antara 9 - 13 karakter"],
+      unique: [true, "Nomor telpon sudah terdaftar"],
     },
     status: {
       type: String,
@@ -59,34 +60,6 @@ playerSchema.path("email").validate(
   async function (value) {
     try {
       const count = await this.model("Player").countDocuments({ email: value });
-      return !count;
-    } catch (err) {
-      throw err;
-    }
-  },
-  (attr) => `${attr.value} sudah terdaftar`
-);
-
-playerSchema.path("username").validate(
-  async function (value) {
-    try {
-      const count = await this.model("Player").countDocuments({
-        username: value,
-      });
-      return !count;
-    } catch (err) {
-      throw err;
-    }
-  },
-  (attr) => `${attr.value} sudah terdaftar`
-);
-
-playerSchema.path("phoneNumber").validate(
-  async function (value) {
-    try {
-      const count = await this.model("Player").countDocuments({
-        phoneNumber: value,
-      });
       return !count;
     } catch (err) {
       throw err;

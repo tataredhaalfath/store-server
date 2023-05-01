@@ -68,6 +68,18 @@ module.exports = {
         });
       }
 
+      // validate unique field
+      if (err && err.name === "MongoServerError") {
+        let value = "";
+        for (let key in err.keyValue) {
+          value = err.keyValue[key];
+        }
+        return res.status(433).json({
+          error: "error validation",
+          message: `${Object.keys(err.keyValue)} : ${value} sudah terdaftar`,
+        });
+      }
+
       next(err);
     }
   },
