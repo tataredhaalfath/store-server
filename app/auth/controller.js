@@ -2,6 +2,8 @@ const Player = require("../player/model");
 const path = require("path");
 const fs = require("fs");
 const config = require("../../config");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   signup: async (req, res) => {
@@ -67,6 +69,52 @@ module.exports = {
       }
 
       next(err);
+    }
+  },
+
+  signin: (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+      Player.findOne({ email })
+        .then((player) => {
+          if (player) {
+            const checkPass = bcrypt.compareSync(password, player.password);
+            if (checkPass) {
+              const token = jwt.sign(
+                {
+                  player: {
+                    id: player._id,
+                    name: player.name,
+                    username: player.username,
+                    email: player.email,
+                    phoneNumber: player.phoneNumber,
+                    avatar: player.avatar,
+                  },
+                },
+                config.jwtKey
+              );
+
+              res.status(200).json({
+                data: token,
+              });
+            } else {
+              res.status(403).json({
+                message: "Password yang anda masukan salah",
+              });
+            }
+          } else {
+            res.status(404).json({
+              message: "Email yang anda masukan belum terdaftar",
+            });
+          }
+        })
+        .catch((err) => {
+          res.status(500).json({
+            message: err.message || "Terjadi kesalahan pada server ",
+          });
+        });
+    } catch (err) {
+      console.log(err);
     }
   },
 };
