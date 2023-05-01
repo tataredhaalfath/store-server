@@ -21,7 +21,7 @@ router.get("/", index);
 router.put("/status", actionStatus);
 
 // api
-router.get("/voucher", landingPage);
+router.get("/landingpage", landingPage);
 router.post("/detail", detailPage);
 router.get("/category", category);
 router.post("/checkout", isLoginPlayer, checkout);
