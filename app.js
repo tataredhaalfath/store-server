@@ -6,7 +6,7 @@ const logger = require("morgan");
 const merhodOverride = require("method-override");
 const session = require("express-session");
 const flash = require("connect-flash");
-
+const cors = require("cors");
 // router
 const router = require("./routes");
 
@@ -37,6 +37,7 @@ app.use(
 );
 
 // routing
+app.use(cors());
 app.use(router);
 
 // catch 404 and forward to error handler
