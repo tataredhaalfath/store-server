@@ -217,4 +217,22 @@ module.exports = {
       });
     }
   },
+
+  historyDetail: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const history = await Transaction.findOne({ _id: id });
+
+      if (!history)
+        return res.status(404).json({ message: "History tidak ditemukan" });
+
+      res.status(200).json({ data: history });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: err.message || "Terjadi kesalahan pada server",
+      });
+    }
+  },
 };
