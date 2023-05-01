@@ -131,7 +131,6 @@ module.exports = {
   actionEdit: async (req, res) => {
     try {
       const { id, name, category, nominals } = req.body;
-      console.log("req bodyu", req.body);
       if (req.file) {
         let tmp_path = req.file.path;
         let originalExt =
