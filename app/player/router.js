@@ -6,7 +6,9 @@ const {
   landingPage,
   detailPage,
   category,
+  checkout,
 } = require("./controller");
+const { isLoginPlayer } = require("../middleware/auth");
 
 router.get("/", index);
 router.put("/status", actionStatus);
@@ -15,5 +17,6 @@ router.put("/status", actionStatus);
 router.get("/voucher", landingPage);
 router.post("/detail", detailPage);
 router.get("/category", category);
+router.post("/checkout", isLoginPlayer, checkout);
 
 module.exports = router;
