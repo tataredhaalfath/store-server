@@ -37,7 +37,7 @@ app.use(
 );
 
 // routing
-app.use(cors());
+app.use(cors({ origin: "https://fe13-103-13-204-66.ngrok-free.app" }));
 app.use(router);
 
 // catch 404 and forward to error handler

@@ -5,6 +5,7 @@
       <th>Nama Game</th>
       <th>Kategori</th>
       <th>Nominal</th>
+      <th>Metode Pembayaran</th>
       <th>Gambar</th>
       <th>Status</th>
       <th>Action</th>
@@ -20,6 +21,13 @@
         <% data.nominals.forEach(nominal=> { %>
         <span class="badge badge-warning">
           <%= nominal.coinName %> - <%= nominal.coinQuantity %>
+        </span>
+        <% }) %>
+      </td>
+      <td>
+        <% data.payments.forEach(payment=> { %>
+        <span class="badge badge-info">
+          <%= payment.type %>
         </span>
         <% }) %>
       </td>

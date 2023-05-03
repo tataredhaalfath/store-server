@@ -6,10 +6,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-  signup: async (req, res) => {
+  signup: async (req, res, next) => {
     try {
       const payload = req.body;
-
       if (req.file) {
         let tmp_path = req.file.path;
         let originalExt =
@@ -39,6 +38,10 @@ module.exports = {
             });
           } catch (err) {
             console.log(err);
+            // delete file upload if update error
+            if (fs.existsSync(target_path)) {
+              fs.unlinkSync(target_path);
+            }
             if (err && err.name === "ValidationError") {
               return res.status(433).json({
                 error: 1,
@@ -75,8 +78,10 @@ module.exports = {
           value = err.keyValue[key];
         }
         return res.status(433).json({
-          error: "error validation",
-          message: `${Object.keys(err.keyValue)} : ${value} sudah terdaftar`,
+          error: 1,
+          message: `Player validation failed: ${Object.keys(
+            err.keyValue
+          )} : ${value} sudah terdaftar`,
         });
       }
 

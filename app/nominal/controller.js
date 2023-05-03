@@ -57,7 +57,7 @@ module.exports = {
     try {
       const { coinName, coinQuantity, price } = req.body;
 
-      let nominal = await Nominal({ coinName, coinQuantity, price });
+      let nominal = new Nominal({ coinName, coinQuantity, price });
       await nominal.save();
 
       req.flash("alertMessage", "Nominal Berhasil Ditambah");
