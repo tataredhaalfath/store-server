@@ -93,6 +93,29 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label>Metode Pembayaran</label>
+                  <div class="select2-purple">
+                    <select
+                      class="form-control select2"
+                      style="width: 100%"
+                      name="payments"
+                      multiple="multiple"
+                      data-placeholder="pilih metode pembayaran"
+                      required
+                    >
+                      <% payment.forEach(payment => { %>
+                      <option value="<%= payment._id %>"
+                        <% voucher.payments.forEach(vp => { %>
+                         <% if(vp._id.toString() === payment._id.toString()) { %>
+                            selected
+                        <% } }) %>
+                        > <%= payment.type %>
+                      </option>
+                      <% })%>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
                   <label for="image">Gambar</label>
                   <input
                     type="file"

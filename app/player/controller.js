@@ -73,6 +73,12 @@ module.exports = {
       const voucher = await Voucher.findOne({ _id: id })
         .populate("category")
         .populate("nominals")
+        .populate({
+          path: "payments",
+          populate: {
+            path: "banks",
+          },
+        })
         .populate("user", "_id name phoneNumber");
 
       if (!voucher) {
@@ -135,7 +141,7 @@ module.exports = {
         return res.status(404).json({ message: "Bank tidak ditemukan" });
 
       const tax = (10 / 100) * parseInt(res_nominal._doc.price);
-      const value = parseInt(res_nominal._doc.price) - tax;
+      const value = parseInt(res_nominal._doc.price) + tax;
       const payload = {
         historyVoucherTopup: {
           gameName: res_voucher._doc.name,
@@ -223,7 +229,8 @@ module.exports = {
 
   historyDetail: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { id } = req.body;
+      console.log("req body", req.body);
 
       const history = await Transaction.findOne({ _id: id });
 
@@ -304,11 +311,12 @@ module.exports = {
 
   editProfile: async (req, res, next) => {
     try {
-      const { name = "", phoneNumber = "" } = req.body;
+      const { name = "", phoneNumber = "", email = "" } = req.body;
       const payload = {};
 
       if (name.length) payload.name = name;
       if (phoneNumber.length) payload.phoneNumber = phoneNumber;
+      if (email.length) payload.email = email;
 
       if (req.file) {
         let tmp_path = req.file.path;
@@ -337,8 +345,7 @@ module.exports = {
               {
                 ...payload,
                 avatar: filename,
-              },
-              { new: true, runValidators: true }
+              }
             );
 
             if (fs.existsSync(currentImage)) {
@@ -390,8 +397,7 @@ module.exports = {
       } else {
         const player = await Player.findOneAndUpdate(
           { _id: req.player._id },
-          payload,
-          { new: true, runValidators: true }
+          payload
         );
         res.status(201).json({
           data: {

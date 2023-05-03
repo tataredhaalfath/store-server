@@ -42,6 +42,7 @@ let playerSchema = mongoose.Schema(
       minlength: [9, "Panjang nomor telpon harus antara 9 - 13 karakter"],
       maxlength: [13, "Panjang nomor telpon harus antara 9 - 13 karakter"],
       unique: [true, "Nomor telpon sudah terdaftar"],
+      // sparse: true,
     },
     status: {
       type: String,

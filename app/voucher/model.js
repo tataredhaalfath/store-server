@@ -26,6 +26,12 @@ let voucherSchema = mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "User",
   },
+  payments: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Payment",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Voucher", voucherSchema);
