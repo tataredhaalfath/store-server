@@ -19,3 +19,9 @@ already api documentation using postman
 
 ## env setup
 dont forget to create the .env setup base on the .env.example file
+
+![image](https://github.com/tataredhaalfath/topupgame-be/assets/43898482/a4368a63-7b39-401a-b403-4a0ab3518426)
+
+![image](https://github.com/tataredhaalfath/topupgame-be/assets/43898482/39f49055-f63e-4053-afdf-62379ccae348)
+
+![image](https://github.com/tataredhaalfath/topupgame-be/assets/43898482/599e19fd-f7d9-4a68-a80a-8590fa0873b1)
